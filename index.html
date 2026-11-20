@@ -1516,6 +1516,7 @@ button.innerHTML = '<i class="bi bi-plus-lg me-1"></i>Tambah ke Keranjang';
     renderCart();
   }
   // Memperbarui warna tombol berdasarkan isi keranjang
+
 function updateProductButtons() {
   document.querySelectorAll(".product-item").forEach(card => {
     const button = card.querySelector(".add-button");
@@ -1524,9 +1525,22 @@ function updateProductButtons() {
     const productId = Number(button.dataset.productId);
     const isInCart = cart.has(productId);
 
+    // Perbarui status tombol
     button.classList.toggle("has-items", isInCart);
+
+    // Atur warna secara langsung agar tidak tertimpa CSS lain
+    if (isInCart) {
+      button.style.setProperty("background-color", "#1d452b", "important");
+      button.style.setProperty("border-color", "#1d452b", "important");
+      button.style.setProperty("color", "#ffffff", "important");
+    } else {
+      button.style.removeProperty("background-color");
+      button.style.removeProperty("border-color");
+      button.style.removeProperty("color");
+    }
   });
 }
+
 
   function escapeHTML(value) {
     return String(value).replace(/[&<>"']/g, char => ({
