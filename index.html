@@ -325,10 +325,18 @@
     }
 
     .product-price {
-      color: var(--green);
-      font-size: 1.05rem;
-      font-weight: 800;
-    }
+  color: var(--green);
+  font-size: 1.05rem;
+  font-weight: 800;
+  display: inline-block;
+}
+
+.product-unit {
+  color: var(--muted);
+  font-size: .82rem;
+  font-weight: 500;
+  margin-left: 3px;
+}
 
     .old-price {
       margin-left: 5px;
@@ -1421,9 +1429,16 @@ Ingin mengenal lebih dekat Toko Buah Segar? Temukan informasi, aktivitas, dan be
       const body = card.querySelector(".product-body");
       const priceElement = document.createElement("div");
 
-      priceElement.innerHTML = `
-        <span class="product-price">${formatRupiah(price)} / ${escapeHTML(unit)}</span>
-        ${discount > 0 ? `<span class="old-price">${formatRupiah(originalPrice)} / ${escapeHTML(unit)}</span>` : ""}
+          priceElement.innerHTML = `
+        <div>
+          <span class="product-price">${formatRupiah(price)}</span>
+          <span class="product-unit">/ ${escapeHTML(unit)}</span>
+        </div>
+        ${discount > 0 ? `
+          <div>
+            <span class="old-price">${formatRupiah(originalPrice)} / ${escapeHTML(unit)}</span>
+          </div>
+        ` : ""}
       `;
 
       body.appendChild(priceElement);
