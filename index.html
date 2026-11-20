@@ -818,7 +818,7 @@
         <li class="nav-item"><a class="nav-link" href="#produk">Produk</a></li>
         <li class="nav-item"><a class="nav-link" href="#paket">Paket Buah</a></li>
         <li class="nav-item ms-lg-2">
-          <button class="btn btn-main" data-bs-toggle="offcanvas" data-bs-target="#cartPanel">
+         <button class="btn btn-main" id="cartToggleBtn" data-bs-toggle="offcanvas" data-bs-target="#cartPanel">
             <i class="bi bi-bag me-1"></i> Keranjang
             <span class="cart-count" id="cartCount">0</span>
           </button>
@@ -1503,7 +1503,13 @@ Ingin mengenal lebih dekat Toko Buah Segar? Temukan informasi, aktivitas, dan be
     const items = [...cart.values()];
     const count = items.reduce((sum, item) => sum + item.qty, 0);
 
-    document.getElementById("cartCount").textContent = count;
+   document.getElementById("cartCount").textContent = count;
+
+const cartButton = document.getElementById("cartToggleBtn");
+
+if (cartButton) {
+  cartButton.classList.toggle("is-pressed", items.length > 0);
+}
 
     if (!items.length) {
       container.innerHTML = `
@@ -1723,15 +1729,7 @@ return `
     }
   }
 
-  // Ubah tombol menjadi hijau tua setelah diklik.
-  document.addEventListener("click", (event) => {
-    const clickedButton = event.target.closest("button");
-    if (!clickedButton || clickedButton.disabled) return;
-    if (clickedButton.classList.contains("filter-btn")) return;
-    if (clickedButton.matches(".btn-main, .btn-outline-main, .add-button")) {
-      clickedButton.classList.add("is-pressed");
-    }
-  });
+  
 
   // INISIALISASI WEBSITE
   setupProducts();
