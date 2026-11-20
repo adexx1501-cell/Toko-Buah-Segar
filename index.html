@@ -359,12 +359,29 @@
       transition: background .18s ease, color .18s ease;
     }
 
-    .add-button:hover { background: transparent; color: var(--text); }
-    .add-button.is-pressed, .add-button:active {
-      background: var(--green-dark);
-      border-color: var(--green-dark);
-      color: #fff;
-    }
+   /* Tombol produk dalam kondisi normal */
+.add-button {
+  background: transparent;
+  color: var(--text);
+  border-color: var(--border);
+}
+
+/* Tombol produk yang sudah masuk keranjang */
+.add-button.has-items,
+.add-button.has-items:hover,
+.add-button.has-items:focus,
+.add-button.has-items:active {
+  background: var(--green-dark);
+  border-color: var(--green-dark);
+  color: #fff;
+}
+
+/* Efek ketika tombol ditekan tetapi produk belum masuk keranjang */
+.add-button:active:not(.has-items) {
+  background: var(--green-dark);
+  border-color: var(--green-dark);
+  color: #fff;
+}
 
     .package-card {
       height: 100%;
@@ -1454,11 +1471,11 @@ Ingin mengenal lebih dekat Toko Buah Segar? Temukan informasi, aktivitas, dan be
 
       body.appendChild(priceElement);
 
-      const button = document.createElement("button");
-      button.className = "add-button";
-      button.type = "button";
-      button.innerHTML = '<i class="bi bi-plus-lg me-1"></i>Tambah ke Keranjang';
-
+     const button = document.createElement("button");
+button.className = "add-button";
+button.type = "button";
+button.dataset.productId = index;
+button.innerHTML = '<i class="bi bi-plus-lg me-1"></i>Tambah ke Keranjang';
       button.addEventListener("click", () => {
         addToCart({
           id: index,
@@ -1498,6 +1515,18 @@ Ingin mengenal lebih dekat Toko Buah Segar? Temukan informasi, aktivitas, dan be
 
     renderCart();
   }
+  // Memperbarui warna tombol berdasarkan isi keranjang
+function updateProductButtons() {
+  document.querySelectorAll(".product-item").forEach(card => {
+    const button = card.querySelector(".add-button");
+    if (!button) return;
+
+    const productId = Number(button.dataset.productId);
+    const isInCart = cart.has(productId);
+
+    button.classList.toggle("has-items", isInCart);
+  });
+}
 
   function escapeHTML(value) {
     return String(value).replace(/[&<>"']/g, char => ({
@@ -1517,6 +1546,8 @@ function renderCart() {
 
   // Memperbarui jumlah produk pada tombol keranjang
   document.getElementById("cartCount").textContent = count;
+  // Memperbarui warna tombol setiap produk
+updateProductButtons();
 
   // Warna tombol mengikuti kondisi isi keranjang
 const cartButton = document.getElementById("cartToggleBtn");
