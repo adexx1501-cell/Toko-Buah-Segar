@@ -1660,11 +1660,16 @@ return `
     const subtotal = getSubtotal();
     const subtotalText = formatRupiah(subtotal);
     const productList = [...cart.values()]
-      .map((item, index) => {
-        const unit = getUnitLabel(item);
-        return `${index + 1}. ${item.name} (${item.qty} ${unit}) = ${formatRupiah(item.price * item.qty)}`;
-      })
-      .join("\n");
+  .map((item, index) => {
+    const unit = getUnitLabel(item);
+
+    const quantityText = unit === "100 gram"
+      ? `${item.qty} × 100 gram = ${item.qty * 100} gram`
+      : `${item.qty} ${unit}`;
+
+    return `${index + 1}. ${item.name} (${quantityText}) = ${formatRupiah(item.price * item.qty)}`;
+  })
+  .join("\n");
 
     const submitBtn = document.getElementById("checkoutBtn");
     const originalBtnHTML = submitBtn ? submitBtn.innerHTML : "";
