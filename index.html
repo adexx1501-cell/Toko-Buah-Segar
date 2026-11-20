@@ -65,29 +65,31 @@
 
     .nav-link:hover { color: var(--green) !important; }
 
-    /* Semua tombol netral saat belum dipilih; hijau tua setelah diklik */
-    .btn-main, .btn-outline-main {
-      background: transparent;
-      color: var(--text);
-      border: 1px solid var(--border);
-      border-radius: 9px;
-      padding: 11px 19px;
-      font-weight: 700;
-      transition: background .18s ease, color .18s ease, border-color .18s ease;
-    }
+   /* Warna dasar tombol */
+.btn-main, .btn-outline-main {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 11px 19px;
+  font-weight: 700;
+  transition: background .18s ease, color .18s ease, border-color .18s ease;
+}
 
-    .btn-main:hover, .btn-outline-main:hover {
-      background: transparent;
-      color: var(--text);
-      border-color: var(--border);
-    }
+/* Kondisi normal ketika tombol belum aktif */
+.btn-main:hover, .btn-outline-main:hover {
+  background: transparent;
+  color: var(--text);
+  border-color: var(--border);
+}
 
-    .btn-main.is-pressed, .btn-outline-main.is-pressed,
-    .btn-main:active, .btn-outline-main:active {
-      background: var(--green-dark);
-      border-color: var(--green-dark);
-      color: #fff;
-    }
+/* Tombol yang sedang aktif */
+.btn-main.is-pressed, .btn-outline-main.is-pressed,
+.btn-main:active, .btn-outline-main:active {
+  background: var(--green-dark);
+  border-color: var(--green-dark);
+  color: #fff;
+}
 
     .hero {
       background: linear-gradient(115deg, #c5e2ad, #e6efb8 58%, #fff0c2);
@@ -790,6 +792,21 @@
       opacity: 1;
       transform: translateY(0);
     }
+    /* Warna tombol Keranjang ketika masih ada pesanan */
+#cartToggleBtn.is-pressed {
+  background-color: var(--green-dark) !important;
+  border-color: var(--green-dark) !important;
+  color: #ffffff !important;
+}
+
+/* Pertahankan warna hijau saat diarahkan atau diklik */
+#cartToggleBtn.is-pressed:hover,
+#cartToggleBtn.is-pressed:focus,
+#cartToggleBtn.is-pressed:active {
+  background-color: var(--green-dark) !important;
+  border-color: var(--green-dark) !important;
+  color: #ffffff !important;
+}
  </style>
 </head>
 
@@ -1498,62 +1515,70 @@ Ingin mengenal lebih dekat Toko Buah Segar? Temukan informasi, aktivitas, dan be
     })[char]);
   }
 
-  function renderCart() {
-    const container = document.getElementById("cartItems");
-    const items = [...cart.values()];
-    const count = items.reduce((sum, item) => sum + item.qty, 0);
+ 
+function renderCart() {
+  const container = document.getElementById("cartItems");
+  const items = [...cart.values()];
+  const count = items.reduce((sum, item) => sum + item.qty, 0);
 
-   document.getElementById("cartCount").textContent = count;
+  // Memperbarui jumlah produk pada tombol keranjang
+  document.getElementById("cartCount").textContent = count;
 
-const cartButton = document.getElementById("cartToggleBtn");
+  // Mengubah warna tombol berdasarkan isi keranjang
+  const cartButton = document.getElementById("cartToggleBtn");
 
-if (cartButton) {
-  cartButton.classList.toggle("is-pressed", items.length > 0);
-}
-
-    if (!items.length) {
-      container.innerHTML = `
-        <div class="empty-cart">
-          <i class="bi bi-bag"></i>
-          Keranjang masih kosong.
-        </div>
-      `;
+  if (cartButton) {
+    if (items.length > 0) {
+      cartButton.classList.add("is-pressed");
     } else {
-      container.innerHTML = items.map(item => {
-        const unit = getUnitLabel(item);
+      cartButton.classList.remove("is-pressed");
+    }
+  }
 
-const quantityText = unit === "100 gram"
-  ? `${item.qty} × 100 gram = ${item.qty * 100} gram`
-  : `${item.qty} ${unit}`;
+  // Menampilkan kondisi keranjang
+  if (items.length === 0) {
+    container.innerHTML = `
+      <div class="empty-cart">
+        <i class="bi bi-bag"></i>
+        Keranjang masih kosong.
+      </div>
+    `;
+  } else {
+    container.innerHTML = items.map(item => {
+      const unit = getUnitLabel(item);
 
-return `
-          <div class="cart-item">
-            <div class="cart-item-image">
-              <img src="${escapeHTML(item.imageSrc)}" alt="${escapeHTML(item.name)}"
-                onerror="this.style.display='none'">
-            </div>
+      const quantityText = unit === "100 gram"
+        ? `${item.qty} × 100 gram = ${item.qty * 100} gram`
+        : `${item.qty} ${unit}`;
 
-            <div class="flex-grow-1">
-              <div class="fw-bold">${escapeHTML(item.name)}</div>
-              <div class="small text-secondary">${formatRupiah(item.price)} / ${escapeHTML(unit)}</div>
+      return `
+        <div class="cart-item">
+          <div class="cart-item-image">
+            <img src="${escapeHTML(item.imageSrc)}" alt="${escapeHTML(item.name)}"
+              onerror="this.style.display='none'">
+          </div>
 
-              <div class="d-flex justify-content-between align-items-center mt-2">
-                <div class="quantity-control">
-                  <button type="button" onclick="changeQty(${item.id},-1)">−</button>
-                  <strong>${escapeHTML(quantityText)}</strong>
-                  <button type="button" onclick="changeQty(${item.id},1)">+</button>
-                </div>
+          <div class="flex-grow-1">
+            <div class="fw-bold">${escapeHTML(item.name)}</div>
+            <div class="small text-secondary">${formatRupiah(item.price)} / ${escapeHTML(unit)}</div>
 
-                <strong class="small">${formatRupiah(item.price * item.qty)}</strong>
+            <div class="d-flex justify-content-between align-items-center mt-2">
+              <div class="quantity-control">
+                <button type="button" onclick="changeQty(${item.id},-1)">−</button>
+                <strong>${escapeHTML(quantityText)}</strong>
+                <button type="button" onclick="changeQty(${item.id},1)">+</button>
               </div>
+
+              <strong class="small">${formatRupiah(item.price * item.qty)}</strong>
             </div>
           </div>
-        `;
-      }).join("");
-    }
-
-    updateSummary();
+        </div>
+      `;
+    }).join("");
   }
+
+  updateSummary();
+}
 
   function getSubtotal() {
     return [...cart.values()].reduce(
