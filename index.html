@@ -83,9 +83,8 @@
   border-color: var(--border);
 }
 
-/* Tombol yang sedang aktif */
-.btn-main.is-pressed, .btn-outline-main.is-pressed,
-.btn-main:active, .btn-outline-main:active {
+.btn-main:active:not(.has-items),
+.btn-outline-main:active {
   background: var(--green-dark);
   border-color: var(--green-dark);
   color: #fff;
@@ -793,17 +792,12 @@
       transform: translateY(0);
     }
     /* Warna tombol Keranjang ketika masih ada pesanan */
-#cartToggleBtn.is-pressed {
-  background-color: var(--green-dark) !important;
-  border-color: var(--green-dark) !important;
-  color: #ffffff !important;
-}
-
-/* Pertahankan warna hijau saat diarahkan atau diklik */
-#cartToggleBtn.is-pressed:hover,
-#cartToggleBtn.is-pressed:focus,
-#cartToggleBtn.is-pressed:active {
-  background-color: var(--green-dark) !important;
+/* Tombol Keranjang hijau selama masih ada produk */
+#cartToggleBtn.has-items,
+#cartToggleBtn.has-items:hover,
+#cartToggleBtn.has-items:focus,
+#cartToggleBtn.has-items:active {
+  background: var(--green-dark) !important;
   border-color: var(--green-dark) !important;
   color: #ffffff !important;
 }
@@ -1524,16 +1518,12 @@ function renderCart() {
   // Memperbarui jumlah produk pada tombol keranjang
   document.getElementById("cartCount").textContent = count;
 
-  // Mengubah warna tombol berdasarkan isi keranjang
-  const cartButton = document.getElementById("cartToggleBtn");
+  // Warna tombol mengikuti kondisi isi keranjang
+const cartButton = document.getElementById("cartToggleBtn");
 
-  if (cartButton) {
-    if (items.length > 0) {
-      cartButton.classList.add("is-pressed");
-    } else {
-      cartButton.classList.remove("is-pressed");
-    }
-  }
+if (cartButton) {
+  cartButton.classList.toggle("has-items", items.length > 0);
+}
 
   // Menampilkan kondisi keranjang
   if (items.length === 0) {
