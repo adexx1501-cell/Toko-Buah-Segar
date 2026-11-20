@@ -1,0 +1,1597 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Toko Buah Segar – Toko Buah Segar, Nologaten.">
+  <title>Toko Buah Segar</title>
+
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --green: #285c38;
+      --green-dark: #1d452b;
+      --green-light: #edf5e8;
+      --yellow: #f6e8a9;
+      --cream: #fffdf6;
+      --text: #26352a;
+      --muted: #788078;
+      --border: #e8ece4;
+    }
+
+    * { box-sizing: border-box; scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background: #fff;
+      color: var(--text);
+      font-family: "DM Sans", sans-serif;
+    }
+
+    a { text-decoration: none; }
+
+    .navbar {
+      background: rgba(255,255,255,.97);
+      border-bottom: 1px solid var(--border);
+      padding: 13px 0;
+    }
+
+    .brand {
+      color: var(--green);
+      font: 600 1.55rem "Fredoka", sans-serif;
+      letter-spacing: -.4px;
+    }
+
+    .brand-logo {
+      width: 42px;
+      height: 42px;
+      object-fit: contain;
+      margin-right: 9px;
+      flex: 0 0 auto;
+    }
+
+    .nav-link {
+      color: #465349 !important;
+      font-size: .92rem;
+      font-weight: 600;
+    }
+
+    .nav-link:hover { color: var(--green) !important; }
+
+    /* Semua tombol netral saat belum dipilih; hijau tua setelah diklik */
+    .btn-main, .btn-outline-main {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      padding: 11px 19px;
+      font-weight: 700;
+      transition: background .18s ease, color .18s ease, border-color .18s ease;
+    }
+
+    .btn-main:hover, .btn-outline-main:hover {
+      background: transparent;
+      color: var(--text);
+      border-color: var(--border);
+    }
+
+    .btn-main.is-pressed, .btn-outline-main.is-pressed,
+    .btn-main:active, .btn-outline-main:active {
+      background: var(--green-dark);
+      border-color: var(--green-dark);
+      color: #fff;
+    }
+
+    .hero {
+      background: linear-gradient(115deg, #c5e2ad, #e6efb8 58%, #fff0c2);
+      padding: 76px 0;
+    }
+
+    .hero-label {
+      display: inline-block;
+      padding: 7px 13px;
+      border-radius: 30px;
+      background: rgba(255,255,255,.65);
+      color: var(--green);
+      font-size: .82rem;
+      font-weight: 700;
+    }
+
+    .hero h1 {
+      margin: 20px 0 15px;
+      color: var(--green-dark);
+      font-size: clamp(2.4rem, 5vw, 4.3rem);
+      line-height: 1.08;
+      letter-spacing: -2px;
+      font-weight: 800;
+    }
+
+    .hero h1 span {
+      font-family: "Fredoka", sans-serif;
+      color: #477c43;
+    }
+
+    .hero p {
+      max-width: 520px;
+      color: #4b604e;
+      line-height: 1.8;
+      font-size: 1rem;
+    }
+
+    .hero-photo {
+      min-height: 330px;
+      border-radius: 24px;
+      background: rgba(255,255,255,.45);
+      border: 1px solid rgba(255,255,255,.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .hero-photo img {
+      width: 100%;
+      height: 330px;
+      object-fit: cover;
+    }
+
+    .hero-photo .photo-placeholder {
+      color: #657d5d;
+      text-align: center;
+      padding: 25px;
+    }
+
+    .section { padding: 70px 0; }
+
+    .section-soft { background: #f6f9f1; }
+
+    .section-heading {
+      margin-bottom: 34px;
+    }
+
+    .section-heading small {
+      color: var(--green);
+      text-transform: uppercase;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+      font-size: .75rem;
+    }
+
+    .section-heading h2 {
+      margin-top: 9px;
+      font-weight: 800;
+      letter-spacing: -.8px;
+      color: var(--green-dark);
+    }
+
+    .section-heading p {
+      max-width: 600px;
+      margin: 10px auto 0;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .category-card {
+      height: 100%;
+      padding: 23px 15px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: #fff;
+      text-align: center;
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    .category-card:hover {
+      border-color: #a9c89b;
+      transform: translateY(-3px);
+    }
+
+    .category-symbol {
+      width: 55px;
+      height: 55px;
+      display: grid;
+      place-items: center;
+      margin: 0 auto 12px;
+      border-radius: 14px;
+      background: var(--green-light);
+      color: var(--green);
+      font-size: 1.45rem;
+    }
+
+    .category-card h3 {
+      margin: 0;
+      font-size: .98rem;
+      font-weight: 800;
+    }
+
+    .category-card p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: .8rem;
+    }
+
+    .promo-banner {
+      padding: 28px 32px;
+      border-radius: 16px;
+      background: var(--green);
+      color: #fff;
+    }
+
+    .promo-banner h3 {
+      font-size: 1.4rem;
+      font-weight: 800;
+    }
+
+    .promo-banner p {
+      color: #e0eadf;
+      margin: 0;
+      font-size: .92rem;
+    }
+
+    .filter-btn {
+      padding: 9px 16px;
+      border: 1px solid var(--border);
+      border-radius: 30px;
+      background: transparent;
+      color: var(--text);
+      font-size: .88rem;
+      font-weight: 700;
+      transition: background .18s ease, color .18s ease, border-color .18s ease;
+    }
+
+    .filter-btn:hover { background: transparent; color: var(--text); }
+    .filter-btn.active, .filter-btn:active {
+      background: var(--green-dark);
+      color: #fff;
+      border-color: var(--green-dark);
+    }
+
+    .product-card {
+      height: 100%;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: #fff;
+      transition: .2s;
+    }
+
+    .product-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(35,70,40,.09);
+    }
+
+    .product-image {
+      height: 205px;
+      position: relative;
+      background: #f2f5ed;
+      overflow: hidden;
+    }
+
+    .product-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .image-placeholder {
+      width: 100%;
+      height: 100%;
+      display: grid;
+      place-items: center;
+      color: #879181;
+      font-size: .85rem;
+      background: linear-gradient(135deg, #f1f5eb, #f8f4df);
+    }
+
+    .product-label {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      padding: 5px 10px;
+      border-radius: 5px;
+      background: #fff;
+      color: var(--green);
+      font-size: .7rem;
+      font-weight: 800;
+    }
+
+    .product-label.discount {
+      background: #b94b35;
+      color: #fff;
+    }
+
+    .product-body { padding: 16px; }
+
+    .product-body h3 {
+      margin: 0 0 6px;
+      font-size: 1rem;
+      font-weight: 800;
+    }
+
+    .product-description {
+      min-height: 38px;
+      margin: 0 0 12px;
+      color: var(--muted);
+      font-size: .82rem;
+      line-height: 1.5;
+    }
+
+    .product-price {
+      color: var(--green);
+      font-size: 1.05rem;
+      font-weight: 800;
+    }
+
+    .old-price {
+      margin-left: 5px;
+      color: #999;
+      font-size: .78rem;
+      text-decoration: line-through;
+    }
+
+    .add-button {
+      width: 100%;
+      margin-top: 13px;
+      padding: 10px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: transparent;
+      color: var(--text);
+      font-size: .88rem;
+      font-weight: 800;
+      transition: background .18s ease, color .18s ease;
+    }
+
+    .add-button:hover { background: transparent; color: var(--text); }
+    .add-button.is-pressed, .add-button:active {
+      background: var(--green-dark);
+      border-color: var(--green-dark);
+      color: #fff;
+    }
+
+    .package-card {
+      height: 100%;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: #fff;
+    }
+
+    .package-card img {
+      width: 100%;
+      height: 190px;
+      object-fit: cover;
+    }
+
+    .package-photo-placeholder {
+      height: 190px;
+      display: grid;
+      place-items: center;
+      background: #f0f4e9;
+      color: #7a8873;
+      font-size: .85rem;
+    }
+
+    .package-content { padding: 20px; }
+
+    .package-content h3 {
+      font-size: 1.05rem;
+      font-weight: 800;
+    }
+
+    .package-content p {
+      margin: 0;
+      color: var(--muted);
+      font-size: .88rem;
+      line-height: 1.7;
+    }
+
+    .about-photo {
+      min-height: 330px;
+      overflow: hidden;
+      border-radius: 16px;
+      background: #f1f5eb;
+    }
+
+    .about-photo img {
+      width: 100%;
+      height: 330px;
+      object-fit: cover;
+    }
+
+    .about-text p {
+      color: var(--muted);
+      line-height: 1.9;
+    }
+
+    .location-card {
+      height: 100%;
+      padding: 25px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: #fff;
+    }
+
+    .location-card i {
+      color: var(--green);
+      font-size: 1.5rem;
+    }
+
+    .location-card h3 {
+      margin: 14px 0 8px;
+      font-size: 1.08rem;
+      font-weight: 800;
+    }
+
+    .location-card p {
+      color: var(--muted);
+      font-size: .9rem;
+      line-height: 1.7;
+    }
+
+    .contact-section {
+      padding: 45px 0;
+      background: #f6f9f1;
+    }
+
+    .contact-box {
+      padding: 30px;
+      border-radius: 15px;
+      background: var(--green);
+      color: #fff;
+    }
+
+    .contact-box p { color: #e0eadf; }
+
+ .footer-social {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 18px;
+  border-top: 1px solid rgba(255,255,255,.18);
+}
+
+.footer-social a {
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: #e8efe6;
+  background: rgba(255,255,255,.10);
+  font-size: 1.2rem;
+  transition: .2s ease;
+  
+}
+.footer-social p {
+  text-align: justify;
+}
+.footer-social a:hover {
+  color: var(--green-dark);
+  background: #fff;
+  transform: translateY(-2px);
+}
+    .offcanvas-header { background: #f4f8ef; }
+
+    .cart-item {
+      display: flex;
+      gap: 12px;
+      padding: 13px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .cart-item-image {
+      width: 58px;
+      height: 58px;
+      flex-shrink: 0;
+      overflow: hidden;
+      border-radius: 9px;
+      background: #f0f4e9;
+    }
+
+    .cart-item-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .quantity-control {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .quantity-control button {
+      width: 27px;
+      height: 27px;
+      border: 0;
+      border-radius: 6px;
+      background: var(--green-light);
+      color: var(--green);
+      font-weight: 800;
+    }
+
+    .form-control, .form-select {
+      border-radius: 8px;
+      border-color: #dfe6db;
+      padding: 10px 12px;
+    }
+
+    .form-check-input:checked {
+      background-color: var(--green);
+      border-color: var(--green);
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      margin: 9px 0;
+      font-size: .9rem;
+    }
+
+    .summary-total {
+      padding-top: 13px;
+      margin-top: 13px;
+      border-top: 1px solid var(--border);
+      color: var(--green);
+      font-size: 1.05rem;
+      font-weight: 800;
+    }
+
+    .empty-cart {
+      padding: 32px 10px;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    .empty-cart i {
+      display: block;
+      margin-bottom: 10px;
+      color: #9baa94;
+      font-size: 2rem;
+    }
+
+    .note-text {
+      color: var(--muted);
+      font-size: .76rem;
+      line-height: 1.5;
+    }
+
+.struktur-image {
+  width: 100%;
+  margin: 15px auto 0;
+  text-align: center;
+}
+
+.struktur-image img {
+  display: block;
+  width: 75%;
+  max-width: 1000px;
+  height: auto;
+  margin: 0 auto;
+  object-fit: contain;
+}
+
+@media (max-width: 767px) {
+  .struktur-image img {
+    width: 95%;
+    max-width: 100%;
+  }
+}.footer-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
+  padding: 15px 0 25px;
+}
+
+.footer-social {
+  text-align: center;
+  max-width: 320px;
+}
+
+.social-title {
+  display: block;
+  color: #f6e8a9;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  margin-bottom: 8px;
+}
+
+.footer-social p {
+  color: #e8efe6;
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+
+.footer-social {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 18px;
+      border-top: 1px solid rgba(255,255,255,.18);
+    }
+    .footer-social a {
+      width: 40px;
+      height: 40px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      color: #e8efe6;
+      background: rgba(255,255,255,.10);
+      font-size: 1.2rem;
+      transition: .2s ease;
+    }
+    .footer-social a:hover {
+      color: var(--green-dark);
+      background: #fff;
+      transform: translateY(-2px);
+    }
+
+
+    /* Footer bergaya informasi kontak */
+    /* FOOTER */
+.site-footer {
+  padding: 48px 0 20px;
+  background: #1c3925;
+  color: #fff;
+}
+
+.site-footer .footer-content {
+  display: grid !important;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 70px;
+  align-items: start;
+  padding-bottom: 30px;
+}
+
+.site-footer .footer-heading {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 22px;
+}
+
+.site-footer .footer-heading img {
+  width: 62px;
+  height: 62px;
+  object-fit: contain;
+  background: white;
+  border-radius: 9px;
+  padding: 5px;
+}
+
+.site-footer .footer-heading h2 {
+  color: white;
+  margin: 0;
+  font-size: 2.2rem;
+}
+
+.site-footer .footer-details p {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+  color: white;
+  line-height: 1.5;
+}
+
+.site-footer .footer-details i {
+  color: #f6e8a9;
+  margin-top: 4px;
+}
+
+.site-footer .footer-details a {
+  color: white;
+}
+
+.site-footer .footer-social {
+  display: block !important;
+  text-align: left;
+  padding: 0;
+  margin: 0;
+  border: none;
+}
+
+.site-footer .footer-social h3 {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+
+.site-footer .footer-social p {
+  color: white;
+  line-height: 1.6;
+  margin-bottom: 18px;
+}
+
+.site-footer .social-link {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  border: 1px solid white;
+  border-radius: 8px;
+  color: white;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.site-footer .social-link:hover {
+  background: white;
+  color: #1c3925;
+}
+
+.site-footer .footer-copyright {
+  display: block;
+  width: 100%;
+  margin: 0 auto;
+  padding: 17px 0 5px;
+  border-top: 1px solid rgba(255,255,255,.4);
+  color: #ffffff;
+  font-weight: 700;
+  text-align: center !important;
+  box-sizing: border-box;
+}
+
+.site-footer .footer-copyright small {
+  display: block;
+  width: 100%;
+  color: #ffffff;
+  font-size: .95rem;
+  font-weight: 700;
+  text-align: center !important;
+}
+
+@media (max-width: 767px) {
+  .site-footer .footer-content {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+}
+  </style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg sticky-top">
+  <div class="container">
+    <a class="navbar-brand brand d-flex align-items-center" href="#beranda">
+    <img class="brand-logo"
+         src="assets/img/LOGO_TBS-removebg-preview.png"
+         alt="Logo Toko Buah Segar">
+    Toko Buah Segar
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-label="Buka menu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+        <li class="nav-item"><a class="nav-link" href="#beranda">Beranda</a></li>
+        <li class="nav-item"><a class="nav-link" href="#tentang">Tentang Kami</a></li>
+        <li class="nav-item"><a class="nav-link" href="#struktur">Struktur Operasional</a></li>
+        <li class="nav-item"><a class="nav-link" href="#kategori">Kategori</a></li>
+        <li class="nav-item"><a class="nav-link" href="#produk">Produk</a></li>
+        <li class="nav-item"><a class="nav-link" href="#paket">Paket Buah</a></li>
+        <li class="nav-item ms-lg-2">
+          <button class="btn btn-main" data-bs-toggle="offcanvas" data-bs-target="#cartPanel">
+            <i class="bi bi-bag me-1"></i> Keranjang
+            <span class="cart-count" id="cartCount">0</span>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- BERANDA -->
+<header class="hero" id="beranda">
+  <div class="container">
+    <div class="row align-items-center g-4">
+      <div class="col-lg-7">
+        <span class="hero-label">Toko Buah Segar · Nologaten</span>
+        <h1>Buah segar untuk<br><span>kebutuhan sehari-hari.</span></h1>
+        <p>
+          Temukan berbagai pilihan buah utuh, buah potong, paket buah,
+          dan parsel buah di Toko Buah Segar. Pilih produk yang kamu butuhkan
+          dan pesan langsung melalui situs ini.
+        </p>
+      </div>
+
+     <div class="col-lg-5">
+    <div class="hero-photo">
+        <img 
+            src="assets/img/tbs depan.webp"
+            alt="Aneka buah segar Toko Buah Segar"
+            data-aos="fade-in"
+            onerror="this.style.display='none'">
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- TENTANG KAMI -->
+<section class="section" id="tentang">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-5">
+        <div class="about-photo">
+          <img src="assets/img/suasana.jpg" alt="" data-aos="fade-in">
+        </div>
+      </div>
+
+      <div class="col-lg-7 about-text">
+        <div class="section-heading mb-3">
+          <small>Tentang kami</small>
+          <h2>Toko Buah Segar</h2>
+        </div>
+<p style="text-align: justify;">
+  Mulai beroperasi sejak akhir tahun 2018 di kawasan Nologaten, Yogyakarta. Sejak awal berdiri, usaha ini hadir untuk memenuhi kebutuhan buah sehari-hari warga sekitar lewat berbagai pilihan, mulai dari buah utuh, buah potong, paket buah, hingga parsel.
+</p>
+
+<p style="text-align: justify;">
+  Mengusung konsep eceran dengan harga grosir, setiap buah yang tersedia selalu dijaga kesegarannya tanpa bikin kantong jebol. Berkat kualitas yang terjaga dan harga yang miring, toko ini terus menjadi pilihan andalan pelanggan untuk stok buah harian di rumah maupun bingkisan untuk berbagai acara.
+</p>
+
+       
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STRUKTUR OPERASIONAL -->
+<section class="section section-soft" id="struktur">
+  <div class="container">
+    <div class="section-heading text-center">
+      <small>Tim Toko Buah Segar</small>
+      <h2>Struktur Operasional</h2>
+      <p>Gambaran peran yang terlibat dalam Toko Buah Segar</p>
+    </div>
+
+    <div class="struktur-image text-center">
+      <img src="assets/img/struktur new.png"
+           alt="Struktur Operasional Toko Buah Segar"
+           data-aos="fade-in">
+    </div>
+  </div>
+</section>
+
+<!-- PAKET BUAH -->
+<section class="section section-soft" id="paket">
+  <div class="container">
+    <div class="section-heading text-center">
+      <small>Pilihan belanja</small>
+      <h2>Buah untuk berbagai keperluan</h2>
+      <p>Pilih produk sesuai kebutuhan pribadi, keluarga, maupun parsel.</p>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="package-card">
+         <img src="assets/img/buah buahan.jpg" alt="" data-aos="fade-in">
+          <div class="package-content">
+            <h3>Buah Utuh</h3>
+            <p>Berbagai jenis buah yang dapat dipilih sesuai kebutuhan.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="package-card">
+           <img src="assets/img/buah potong.jpg" alt="" data-aos="fade-in">
+          <div class="package-content">
+            <h3>Buah Potong</h3>
+            <p>Pilihan buah potong yang praktis untuk dinikmati.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="package-card">
+           <img src="assets/img/parsel.jpg" alt="" data-aos="fade-in">
+          <div class="package-content">
+            <h3>Parsel Buah</h3>
+            <p>Parsel buah untuk berbagai acara dan kesempatan.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- KATEGORI -->
+<section class="section section-soft" id="kategori">
+  <div class="container">
+    <div class="section-heading text-center">
+      <small>Kategori produk</small>
+      <h2>Belanja sesuai kebutuhan</h2>
+      <p>Pilih kategori produk yang ingin kamu lihat.</p>
+    </div>
+
+    <div class="row g-3">
+      <div class="col-6 col-md-3">
+        <div class="category-card" onclick="filterProduk('buah')">
+          <div class="category-symbol"><i class="bi bi-basket2"></i></div>
+          <h3>Buah Utuh</h3>
+          <p>Berbagai pilihan buah</p>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-3">
+        <div class="category-card" onclick="filterProduk('potong')">
+          <div class="category-symbol"><i class="bi bi-box-seam"></i></div>
+          <h3>Buah Potong</h3>
+          <p>Praktis untuk dinikmati</p>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-3">
+        <div class="category-card" onclick="filterProduk('paket')">
+          <div class="category-symbol"><i class="bi bi-bag"></i></div>
+          <h3>Paket Buah</h3>
+          <p>Pilihan dalam satu paket</p>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-3">
+        <div class="category-card" onclick="filterProduk('parcel')">
+          <div class="category-symbol"><i class="bi bi-gift"></i></div>
+          <h3>Parsel Buah</h3>
+          <p>Parsel buah</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- KATALOG -->
+<section class="section" id="produk">
+  <div class="container">
+    <div class="section-heading text-center">
+      <small>Katalog Toko Buah Segar</small>
+      <h2>Daftar Produk</h2>
+      <p>Pilih produk yang tersedia dan tambahkan ke keranjang belanja.</p>
+    </div>
+
+    <div class="row justify-content-center mb-3">
+      <div class="col-lg-6">
+        <div class="input-group">
+          <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+          <input type="search" class="form-control" id="searchInput" placeholder="Cari nama buah atau produk...">
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex flex-wrap justify-content-center gap-2 mb-4">
+      <button class="filter-btn" data-filter="semua" onclick="filterProduk('semua',this)">Semua</button>
+      <button class="filter-btn" data-filter="buah" onclick="filterProduk('buah',this)">Buah Utuh</button>
+      <button class="filter-btn" data-filter="potong" onclick="filterProduk('potong',this)">Buah Potong</button>
+      <button class="filter-btn" data-filter="paket" onclick="filterProduk('paket',this)">Paket Buah</button>
+      <button class="filter-btn" data-filter="parcel" onclick="filterProduk('parcel',this)">Parsel</button>
+    </div>
+
+    <div class="row g-4" id="productGrid">
+
+      <div class="col-6 col-lg-3 product-item" data-category="buah" data-name="Salak" data-price="25000" data-discount="20" data-badge="diskon">
+        <article class="product-card">
+          <div class="product-image">
+             <img src="assets/img/nanas.jpg" alt="" data-aos="fade-in">
+            <div class="image-placeholder" hidden>Foto Nanas</div>
+          </div>
+          <div class="product-body">
+            <h3>Nanas</h3>
+            <p class="product-description">Nanas untuk kebutuhan buah harian.</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="col-6 col-lg-3 product-item" data-category="buah" data-name="Jeruk" data-price="21000" data-discount="0" data-badge="baru">
+        <article class="product-card">
+          <div class="product-image">
+              <img src="assets/img/jeruk.jpg" alt="" data-aos="fade-in">
+            <div class="image-placeholder" hidden>Foto jeruk</div>
+          </div>
+          <div class="product-body">
+            <h3>Jeruk</h3>
+            <p class="product-description">Pilihan buah jeruk untuk keluarga.</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="col-6 col-lg-3 product-item" data-category="buah" data-name="Apel" data-price="25000" data-discount="10" data-badge="diskon">
+        <article class="product-card">
+          <div class="product-image">
+              <img src="assets/img/apple.jpg" alt="" data-aos="fade-in">
+            <div class="image-placeholder" hidden>Foto apel</div>
+          </div>
+          <div class="product-body">
+            <h3>Apel</h3>
+            <p class="product-description">Apel untuk stok buah di rumah.</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="col-6 col-lg-3 product-item" data-category="buah" data-name="Anggur Muscat" data-price="41000" data-discount="15" data-badge="diskon">
+        <article class="product-card">
+          <div class="product-image">
+             <img src="assets/img/anggur muscat.jpg" alt="" data-aos="fade-in">
+            <div class="image-placeholder" hidden>Foto anggur Muscat</div>
+          </div>
+          <div class="product-body">
+            <h3>Anggur Muscat</h3>
+            <p class="product-description">Anggur Muscat untuk pilihan buah spesial.</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="col-6 col-lg-3 product-item" data-category="buah" data-name="Buah Naga" data-price="12000" data-discount="0">
+        <article class="product-card">
+          <div class="product-image">
+            <img src="assets/img/Buah Naga.jpg" alt="" data-aos="fade-in">
+            <div class="image-placeholder" hidden>Foto buah naga</div>
+          </div>
+          <div class="product-body">
+            <h3>Buah Naga</h3>
+            <p class="product-description">Buah naga untuk pilihan buah harian.</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="col-6 col-lg-3 product-item" data-category="buah" data-name="Pir" data-price="24000" data-discount="0">
+        <article class="product-card">
+          <div class="product-image">
+            <img src="assets/img/pir.jpg" alt="" data-aos="fade-in">
+            <div class="image-placeholder" hidden>Foto pir</div>
+          </div>
+          <div class="product-body">
+            <h3>Pir</h3>
+            <p class="product-description">Pir untuk melengkapi pilihan buah.</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="col-6 col-lg-3 product-item" data-category="buah" data-name="Alpukat" data-price="19000" data-discount="0" data-badge="baru">
+        <article class="product-card">
+          <div class="product-image">
+             <img src="assets/img/alpukatt.jpg" alt="" data-aos="fade-in">
+            <div class="image-placeholder" hidden>Foto alpukat</div>
+          </div>
+          <div class="product-body">
+            <h3>Alpukat</h3>
+            <p class="product-description">Alpukat untuk pilihan buah di rumah.</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="col-6 col-lg-3 product-item" data-category="buah" data-name="Mangga" data-price="14000" data-discount="0">
+        <article class="product-card">
+          <div class="product-image">
+            <img src="assets/img/mangga.jpg" alt="" data-aos="fade-in">
+            <div class="image-placeholder" hidden>Foto mangga</div>
+          </div>
+          <div class="product-body">
+            <h3>Mangga</h3>
+            <p class="product-description">Mangga untuk dinikmati bersama keluarga.</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="col-6 col-lg-3 product-item" data-category="buah" data-name="Ubi Cilembu" data-price="18000" data-discount="0">
+        <article class="product-card">
+          <div class="product-image">
+           <img src="assets/img/melon.jpg" alt="" data-aos="fade-in">
+            <div class="image-placeholder" hidden>Foto Melon</div>
+          </div>
+          <div class="product-body">
+            <h3>Melon</h3>
+            <p class="product-description">Melon untuk pilihan camilan.</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="col-6 col-lg-3 product-item" data-category="potong" data-name="Buah Potong" data-price="10000" data-discount="0" data-badge="baru">
+        <article class="product-card">
+          <div class="product-image">
+           <img src="assets/img/mangga potong.jpg" alt="" data-aos="fade-in">
+            <div class="image-placeholder" hidden>Foto buah potong</div>
+          </div>
+          <div class="product-body">
+            <h3>Mangga Potong</h3>
+            <p class="product-description">Mangga potong dalam kemasan praktis.</p>
+          </div>
+        </article>
+      </div>
+
+<div class="col-6 col-lg-3 product-item" data-category="potong" data-name="Buah Potong" data-price="10000" data-discount="0" data-badge="baru">
+        <article class="product-card">
+          <div class="product-image">
+           <img src="assets/img/melon potong.jpg" alt="" data-aos="fade-in">
+            <div class="image-placeholder" hidden>Foto buah potong</div>
+          </div>
+          <div class="product-body">
+            <h3>Melon Potong</h3>
+            <p class="product-description">Melon potong dalam kemasan praktis.</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="col-6 col-lg-3 product-item" data-category="potong" data-name="Buah Potong" data-price="10000" data-discount="0" data-badge="baru">
+        <article class="product-card">
+          <div class="product-image">
+           <img src="assets/img/semangka potong.jpg" alt="" data-aos="fade-in">
+            <div class="image-placeholder" hidden>Foto buah potong</div>
+          </div>
+          <div class="product-body">
+            <h3>Semangka Potong</h3>
+            <p class="product-description">Semangka potong dalam kemasan praktis.</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="col-6 col-lg-3 product-item" data-category="paket" data-name="Paket Buah Keluarga" data-price="15000" data-discount="0">
+        <article class="product-card">
+          <div class="product-image">
+          <img src="assets/img/paket apel.jpg" alt="" data-aos="fade-in">
+          </div>
+          <div class="product-body">
+            <h3>Paket Apel</h3>
+            <p class="product-description">Paket buah apel untuk keluarga.</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="col-6 col-lg-3 product-item" data-category="paket" data-name="Paket Buah Keluarga" data-price="14000" data-discount="0">
+        <article class="product-card">
+          <div class="product-image">
+          <img src="assets/img/pirrr.jpeg" alt="" data-aos="fade-in">
+          </div>
+          <div class="product-body">
+            <h3>Paket Pir</h3>
+            <p class="product-description">Paket buah pir untuk keluarga.</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="col-6 col-lg-3 product-item" data-category="paket" data-name="Paket Buah Keluarga" data-price="14000" data-discount="0">
+        <article class="product-card">
+          <div class="product-image">
+          <img src="assets/img/jeruk pack.jpg" alt="" data-aos="fade-in">
+          </div>
+          <div class="product-body">
+            <h3>Paket Jeruk</h3>
+            <p class="product-description">Paket buah jeruk untuk keluarga.</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="col-6 col-lg-3 product-item" data-category="parcel" data-name="Parsel Buah" data-price="150000" data-discount="0" data-badge="baru">
+        <article class="product-card">
+          <div class="product-image">
+           <img src="assets/img/PARSEL BUAH.jpg" alt="" data-aos="fade-in">
+          </div>
+          <div class="product-body">
+            <h3>Parsel Buah</h3>
+            <p class="product-description">Parsel buah untuk berbagai acara.</p>
+          </div>
+        </article>
+      </div>
+
+    </div>
+
+    <p id="noResult" class="text-center text-secondary mt-4" hidden>Produk tidak ditemukan.</p>
+    <p class="note-text text-center mt-4"></p>
+  </div>
+</section>
+
+
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="container">
+
+    <div class="footer-content">
+      <div class="footer-identity">
+        <div class="footer-heading">
+          <img src="assets/img/LOGO_TBS-removebg-preview.png"
+               alt="Logo Toko Buah Segar">
+          <h2>Toko Buah Segar</h2>
+        </div>
+
+        <div class="footer-details">
+          <p>
+            <i class="bi bi-geo-alt-fill"></i>
+            Jl. Wahid Hasyim No.38, Nologaten, Condongcatur,
+            Kec. Depok, Kabupaten Sleman, Daerah Istimewa Yogyakarta 55281
+          </p>
+          <p>
+            <i class="bi bi-telephone-fill"></i>
+            <strong>Telepon:</strong>
+            <a href="tel:085175053838">0851-7505-3838</a>
+          </p>
+        </div>
+      </div>
+
+      <div class="footer-social">
+        <h3>MEDIA SOSIAL & GOOGLE MAPS</h3>
+        <p>
+Ingin mengenal lebih dekat Toko Buah Segar? Temukan informasi, aktivitas, dan berbagai pilihan produk kami melalui media sosial. Kamu juga dapat melihat lokasi toko dan petunjuk arah melalui Google Maps pada tautan berikut. 
+        </p>
+        <a class="social-link"
+           href="https://linktr.ee/tbsfreshfruit?utm_source=linktree_profile_share&ltsid=c7a3b77f-c06e-49a4-83ea-faa1ce2db00f"
+           target="_blank"
+           rel="noopener noreferrer">
+          <i class="bi bi-link-45deg"></i>
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-copyright">
+      <small>© 2026 R5. Seluruh hak cipta dilindungi.</small>
+    </div>
+
+  </div>
+</footer>
+
+
+<!-- PANEL KERANJANG -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="cartPanel">
+  <div class="offcanvas-header">
+    <div>
+      <h5 class="offcanvas-title fw-bold">Keranjang Belanja</h5>
+      <small class="text-secondary">Periksa produk sebelum memesan.</small>
+    </div>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Tutup"></button>
+  </div>
+
+  <div class="offcanvas-body">
+    <div id="cartItems">
+      <div class="empty-cart">
+        <i class="bi bi-bag"></i>
+        Keranjang masih kosong.
+      </div>
+    </div>
+
+    <div class="mt-3">
+      <label class="form-label fw-bold" for="orderNotes">Catatan pesanan</label>
+      <textarea class="form-control" id="orderNotes" rows="2" placeholder="Tulis catatan untuk pesananmu..."></textarea>
+    </div>
+
+    <hr>
+
+    <label class="form-label fw-bold d-block">Metode pengambilan</label>
+
+    <div class="form-check mb-2">
+      <input class="form-check-input" type="radio" name="deliveryMethod" id="pickupOption" value="pickup" checked>
+      <label class="form-check-label" for="pickupOption">Ambil langsung di toko</label>
+    </div>
+
+    <div class="form-check mb-3">
+      <input class="form-check-input" type="radio" name="deliveryMethod" id="courierOption" value="courier">
+      <label class="form-check-label" for="courierOption">Pengantaran kurir / Gojek</label>
+    </div>
+
+    <div id="deliveryFields" hidden>
+      <div class="mb-3">
+        <label class="form-label fw-bold" for="deliveryAddress">Alamat pengantaran</label>
+        <textarea class="form-control" id="deliveryAddress" rows="2" placeholder="Masukkan alamat lengkap"></textarea>
+      </div>
+      <p class="note-text">Biaya pengantaran kurir dikonfirmasi langsung dengan toko/kurir.</p>
+    </div>
+    <hr>
+
+    <div class="summary-row">
+      <span>Subtotal</span>
+      <strong id="subtotal">Rp0</strong>
+    </div>
+
+    <div class="summary-row summary-total">
+      <span>Total sementara</span>
+      <span id="grandTotal">Rp0</span>
+    </div>
+
+    <p class="note-text mt-2">
+      Pesanan akan dikirim melalui WhatsApp untuk konfirmasi ketersediaan produk dan total pembayaran.
+    </p>
+
+    <button class="btn btn-main w-100 mt-2" id="checkoutBtn" onclick="checkout()">
+      <i class="bi bi-whatsapp me-2"></i>Kirim Pesanan
+    </button>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  // UBAH NOMOR WHATSAPP INI DENGAN NOMOR TOKO
+  const NOMOR_WHATSAPP = "6281234567890";
+
+  const cart = new Map();
+  let activeCategory = "semua";
+
+  const formatRupiah = value =>
+    new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+      maximumFractionDigits: 0
+    }).format(value);
+
+  // MENYIAPKAN KARTU PRODUK
+  function setupProducts() {
+    document.querySelectorAll(".product-item").forEach((card, index) => {
+      const name = card.dataset.name;
+      const originalPrice = Number(card.dataset.price);
+      const discount = Number(card.dataset.discount || 0);
+      const price = Math.round(originalPrice * (100 - discount) / 100);
+      const badge = card.dataset.badge || "";
+      const image = card.querySelector(".product-image img");
+      const imageSrc = image ? image.getAttribute("src") : "";
+
+      const label = document.createElement("span");
+      label.className = "product-label" + (badge === "diskon" ? " discount" : "");
+
+      if (badge === "diskon") {
+        label.textContent = "DISKON " + discount + "%";
+      } else if (badge === "baru") {
+        label.textContent = "BARU";
+      }
+
+      if (badge) card.querySelector(".product-image").appendChild(label);
+
+      const body = card.querySelector(".product-body");
+      const priceElement = document.createElement("div");
+
+      priceElement.innerHTML = `
+        <span class="product-price">${formatRupiah(price)}</span>
+        ${discount > 0 ? `<span class="old-price">${formatRupiah(originalPrice)}</span>` : ""}
+      `;
+
+      body.appendChild(priceElement);
+
+      const button = document.createElement("button");
+      button.className = "add-button";
+      button.type = "button";
+      button.innerHTML = '<i class="bi bi-plus-lg me-1"></i>Tambah ke Keranjang';
+
+      button.addEventListener("click", () => {
+        addToCart({
+          id: index,
+          name,
+          price,
+          imageSrc
+        });
+      });
+
+      body.appendChild(button);
+      card.dataset.search = (name + " " + card.textContent).toLowerCase();
+    });
+  }
+
+  function addToCart(product) {
+    if (cart.has(product.id)) {
+      cart.get(product.id).qty++;
+    } else {
+      cart.set(product.id, { ...product, qty: 1 });
+    }
+
+    renderCart();
+    bootstrap.Offcanvas.getOrCreateInstance(
+      document.getElementById("cartPanel")
+    ).show();
+  }
+
+  function changeQty(id, amount) {
+    if (!cart.has(id)) return;
+
+    const item = cart.get(id);
+    item.qty += amount;
+
+    if (item.qty <= 0) cart.delete(id);
+
+    renderCart();
+  }
+
+  function escapeHTML(value) {
+    return String(value).replace(/[&<>"']/g, char => ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#039;"
+    })[char]);
+  }
+
+  function renderCart() {
+    const container = document.getElementById("cartItems");
+    const items = [...cart.values()];
+    const count = items.reduce((sum, item) => sum + item.qty, 0);
+
+    document.getElementById("cartCount").textContent = count;
+
+    if (!items.length) {
+      container.innerHTML = `
+        <div class="empty-cart">
+          <i class="bi bi-bag"></i>
+          Keranjang masih kosong.
+        </div>
+      `;
+    } else {
+      container.innerHTML = items.map(item => `
+        <div class="cart-item">
+          <div class="cart-item-image">
+            <img src="${escapeHTML(item.imageSrc)}" alt="${escapeHTML(item.name)}"
+              onerror="this.style.display='none'">
+          </div>
+
+          <div class="flex-grow-1">
+            <div class="fw-bold">${escapeHTML(item.name)}</div>
+            <div class="small text-secondary">${formatRupiah(item.price)}</div>
+
+            <div class="d-flex justify-content-between align-items-center mt-2">
+              <div class="quantity-control">
+                <button type="button" onclick="changeQty(${item.id},-1)">−</button>
+                <strong>${item.qty}</strong>
+                <button type="button" onclick="changeQty(${item.id},1)">+</button>
+              </div>
+
+              <strong class="small">${formatRupiah(item.price * item.qty)}</strong>
+            </div>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    updateSummary();
+  }
+
+  function getSubtotal() {
+    return [...cart.values()].reduce(
+      (sum, item) => sum + item.price * item.qty, 0
+    );
+  }
+
+  function updateSummary() {
+    const subtotal = getSubtotal();
+    document.getElementById("subtotal").textContent = formatRupiah(subtotal);
+    document.getElementById("grandTotal").textContent = formatRupiah(subtotal);
+  }
+
+  // FILTER KATEGORI
+  function filterProduk(category, button) {
+    activeCategory = category;
+
+    document.querySelectorAll(".filter-btn").forEach(btn => {
+      btn.classList.toggle("active", btn.dataset.filter === category);
+    });
+
+    applyFilters();
+
+    if (button && button.classList.contains("filter-btn")) {
+      button.classList.add("active");
+    }
+
+    document.getElementById("produk").scrollIntoView({ behavior: "smooth" });
+  }
+
+  // FUNGSI FILTER: hanya tampilkan produk dengan diskon
+
+  // PENCARIAN PRODUK
+  function applyFilters() {
+    const keyword = document.getElementById("searchInput").value.trim().toLowerCase();
+    let visible = 0;
+
+    document.querySelectorAll(".product-item").forEach(card => {
+      const categoryMatch =
+        activeCategory === "semua" ||
+        (activeCategory === "promo" ? Number(card.dataset.discount || 0) > 0 :
+          card.dataset.category === activeCategory);
+
+      const searchMatch = card.dataset.search.includes(keyword);
+      const show = categoryMatch && searchMatch;
+
+      card.style.display = show ? "" : "none";
+      if (show) visible++;
+    });
+
+    document.getElementById("noResult").hidden = visible > 0;
+    const heading = document.querySelector("#produk .section-heading h2");
+    if (heading) heading.textContent = activeCategory === "promo" ? "Produk dengan Diskon" : "Daftar Produk";
+  }
+
+  // PILIH METODE PENGAMBILAN
+  document.querySelectorAll('input[name="deliveryMethod"]').forEach(input => {
+    input.addEventListener("change", () => {
+      document.getElementById("deliveryFields").hidden =
+        !document.getElementById("courierOption").checked;
+      updateSummary();
+    });
+  });
+
+  document.getElementById("searchInput").addEventListener("input", applyFilters);
+
+  // KIRIM PESANAN KE WHATSAPP
+  function checkout() {
+    if (cart.size === 0) {
+      alert("Keranjang masih kosong. Silakan pilih produk terlebih dahulu.");
+      return;
+    }
+
+    if (NOMOR_WHATSAPP === "6281234567890") {
+      alert("Silakan ganti nomor WhatsApp toko pada bagian pengaturan JavaScript.");
+      return;
+    }
+
+    const method = document.querySelector('input[name="deliveryMethod"]:checked').value;
+    const notes = document.getElementById("orderNotes").value.trim();
+    let deliveryDetails = "Ambil langsung di toko";
+
+    if (method === "courier") {
+      const address = document.getElementById("deliveryAddress").value.trim();
+      if (!address) {
+        alert("Masukkan alamat pengantaran terlebih dahulu.");
+        return;
+      }
+      deliveryDetails = "Kurir / Gojek\nAlamat: " + address +
+        "\nBiaya pengantaran: Konfirmasi langsung dengan toko/kurir";
+    }
+
+    const subtotal = getSubtotal();
+    const productList = [...cart.values()].map((item, index) =>
+      `${index + 1}. ${item.name} x${item.qty} = ${formatRupiah(item.price * item.qty)}`
+    ).join("\n");
+
+    const message = `
+Halo Toko Buah Segar, saya ingin memesan:
+
+${productList}
+
+Subtotal: ${formatRupiah(subtotal)}
+
+Metode pengambilan:
+${deliveryDetails}
+
+Total produk: ${formatRupiah(subtotal)}
+Biaya pengantaran (jika menggunakan kurir) dikonfirmasi terpisah.
+
+Catatan:
+${notes || "-"}
+
+Mohon konfirmasi ketersediaan produk dan total pembayaran. Terima kasih.
+    `;
+
+    const url = "https://wa.me/" + NOMOR_WHATSAPP.replace(/\D/g, "") +
+      "?text=" + encodeURIComponent(message);
+    window.open(url, "_blank");
+  }
+
+  // Ubah tombol menjadi hijau tua setelah diklik.
+  document.addEventListener("click", (event) => {
+    const clickedButton = event.target.closest("button");
+    if (!clickedButton || clickedButton.disabled) return;
+    if (clickedButton.classList.contains("filter-btn")) return;
+    if (clickedButton.matches(".btn-main, .btn-outline-main, .add-button")) {
+      clickedButton.classList.add("is-pressed");
+    }
+  });
+
+  // INISIALISASI WEBSITE
+  setupProducts();
+  renderCart();
+</script>
+
+</body>
+</html>
