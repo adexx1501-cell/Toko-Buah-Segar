@@ -1515,7 +1515,12 @@ Ingin mengenal lebih dekat Toko Buah Segar? Temukan informasi, aktivitas, dan be
     } else {
       container.innerHTML = items.map(item => {
         const unit = getUnitLabel(item);
-        return `
+
+const quantityText = unit === "100 gram"
+  ? `${item.qty} × 100 gram = ${item.qty * 100} gram`
+  : `${item.qty} ${unit}`;
+
+return `
           <div class="cart-item">
             <div class="cart-item-image">
               <img src="${escapeHTML(item.imageSrc)}" alt="${escapeHTML(item.name)}"
