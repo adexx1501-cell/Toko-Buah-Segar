@@ -675,9 +675,9 @@
 }
 
 .site-footer .footer-content {
-  display: grid !important;
-  grid-template-columns: 1.2fr 0.8fr;
-  gap: 70px;
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 50px;
   align-items: start;
   padding-bottom: 30px;
 }
@@ -693,36 +693,39 @@
   width: 62px;
   height: 62px;
   object-fit: contain;
-  background: white;
+  background: #fff;
   border-radius: 9px;
   padding: 5px;
 }
 
 .site-footer .footer-heading h2 {
-  color: white;
+  color: #fff;
   margin: 0;
-  font-size: 2.2rem;
+  font-size: 2.1rem;
+  font-weight: 800;
 }
 
 .site-footer .footer-details p {
   display: flex;
+  align-items: flex-start;
   gap: 10px;
   margin-bottom: 10px;
-  color: white;
-  line-height: 1.5;
+  color: #fff;
+  line-height: 1.55;
 }
 
 .site-footer .footer-details i {
   color: #f6e8a9;
   margin-top: 4px;
+  flex-shrink: 0;
 }
 
 .site-footer .footer-details a {
-  color: white;
+  color: #fff;
 }
 
 .site-footer .footer-social {
-  display: block !important;
+  display: block;
   text-align: left;
   padding: 0;
   margin: 0;
@@ -731,57 +734,71 @@
 }
 
 .site-footer .footer-social h3 {
-  color: white;
-  font-size: 1.5rem;
+  color: #fff;
+  font-size: 1.4rem;
   font-weight: 800;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .site-footer .footer-social p {
-  color: white;
+  color: #e8efe6;
   line-height: 1.6;
   margin-bottom: 18px;
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   text-align: left;
 }
 
-.footer-social-links {
-  display: flex;
-  flex-wrap: wrap;
+.site-footer .footer-social-links {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
 }
 
 .site-footer .social-link {
-  display: inline-flex !important;
+  display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 10px 16px;
-  border: 1px solid white;
+  justify-content: flex-start;
+  gap: 9px;
+  width: 100%;
+  height: auto;
+  padding: 10px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.75);
   border-radius: 8px;
-  color: white;
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
   text-decoration: none;
   font-weight: 700;
   font-size: 0.9rem;
-  transition: 0.2s ease;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.site-footer .social-link i {
+  font-size: 1.05rem;
+  flex-shrink: 0;
 }
 
 .site-footer .social-link:hover {
-  background: white;
+  background: #f6e8a9;
+  border-color: #f6e8a9;
   color: #1c3925;
 }
 
-.back-to-top-link {
+.site-footer .back-to-top-wrap {
+  margin-top: 14px;
+}
+
+.site-footer .back-to-top-link {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  margin-top: 14px;
   color: #f6e8a9;
   font-size: 0.88rem;
   font-weight: 700;
 }
 
-.back-to-top-link:hover {
-  color: #ffffff;
+.site-footer .back-to-top-link:hover {
+  color: #fff;
   text-decoration: underline;
 }
 
@@ -790,26 +807,30 @@
   width: 100%;
   margin: 0 auto;
   padding: 17px 0 5px;
-  border-top: 1px solid rgba(255,255,255,.4);
-  color: #ffffff;
+  border-top: 1px solid rgba(255, 255, 255, 0.4);
+  color: #fff;
   font-weight: 700;
-  text-align: center !important;
+  text-align: center;
   box-sizing: border-box;
 }
 
 .site-footer .footer-copyright small {
   display: block;
   width: 100%;
-  color: #ffffff;
-  font-size: .95rem;
+  color: #fff;
+  font-size: 0.95rem;
   font-weight: 700;
-  text-align: center !important;
+  text-align: center;
 }
 
 @media (max-width: 767px) {
   .site-footer .footer-content {
     grid-template-columns: 1fr;
     gap: 30px;
+  }
+
+  .site-footer .footer-heading h2 {
+    font-size: 1.65rem;
   }
 }
  .order-toast {
@@ -1310,8 +1331,7 @@
         </div>
       </div>
 
-    
-<div class="footer-social">
+  <div class="footer-social">
   <h3>MEDIA SOSIAL &amp; GOOGLE MAPS</h3>
   <p>
     Ingin mengenal lebih dekat Toko Buah Segar?
@@ -1324,8 +1344,7 @@
     <a class="social-link"
        href="https://www.instagram.com/USERNAME_INSTAGRAM/"
        target="_blank"
-       rel="noopener noreferrer"
-       aria-label="Instagram">
+       rel="noopener noreferrer">
       <i class="bi bi-instagram"></i>
       <span>Instagram</span>
     </a>
@@ -1333,8 +1352,7 @@
     <a class="social-link"
        href="https://www.facebook.com/USERNAME_FACEBOOK"
        target="_blank"
-       rel="noopener noreferrer"
-       aria-label="Facebook">
+       rel="noopener noreferrer">
       <i class="bi bi-facebook"></i>
       <span>Facebook</span>
     </a>
@@ -1342,8 +1360,7 @@
     <a class="social-link"
        href="https://wa.me/6285175053838"
        target="_blank"
-       rel="noopener noreferrer"
-       aria-label="WhatsApp">
+       rel="noopener noreferrer">
       <i class="bi bi-whatsapp"></i>
       <span>WhatsApp</span>
     </a>
@@ -1351,8 +1368,7 @@
     <a class="social-link"
        href="https://www.google.com/maps/search/?api=1&query=Toko+Buah+Segar+Jl.+Wahid+Hasyim+No.38+Nologaten+Sleman"
        target="_blank"
-       rel="noopener noreferrer"
-       aria-label="Google Maps">
+       rel="noopener noreferrer">
       <i class="bi bi-geo-alt-fill"></i>
       <span>Google Maps</span>
     </a>
@@ -1360,21 +1376,19 @@
     <a class="social-link"
        href="https://linktr.ee/tbsfreshfruit"
        target="_blank"
-       rel="noopener noreferrer"
-       aria-label="Linktree">
+       rel="noopener noreferrer">
       <i class="bi bi-link-45deg"></i>
       <span>Linktree</span>
     </a>
   </div>
 
-  <div>
+  <div class="back-to-top-wrap">
     <a class="back-to-top-link" href="#beranda">
       <i class="bi bi-arrow-up-circle"></i>
       <span>Kembali ke Halaman Awal</span>
     </a>
   </div>
 </div>
-
     <div class="footer-copyright">
       <small>© 2026 R5. Seluruh hak cipta dilindungi.</small>
     </div>
