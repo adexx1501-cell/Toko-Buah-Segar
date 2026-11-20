@@ -1430,16 +1430,16 @@ Ingin mengenal lebih dekat Toko Buah Segar? Temukan informasi, aktivitas, dan be
       const priceElement = document.createElement("div");
 
           priceElement.innerHTML = `
-        <div>
-          <span class="product-price">${formatRupiah(price)}</span>
-          <span class="product-unit">/ ${escapeHTML(unit)}</span>
-        </div>
-        ${discount > 0 ? `
-          <div>
-            <span class="old-price">${formatRupiah(originalPrice)} / ${escapeHTML(unit)}</span>
-          </div>
-        ` : ""}
-      `;
+  <div>
+    <span class="product-price">${formatRupiah(price)}</span>
+    <span class="product-unit">/ ${escapeHTML(unit)}</span>
+  </div>
+  ${discount > 0 ? `
+    <div>
+      <span class="old-price">${formatRupiah(originalPrice)} / ${escapeHTML(unit)}</span>
+    </div>
+  ` : ""}
+`;
 
       body.appendChild(priceElement);
 
@@ -1534,7 +1534,7 @@ return `
               <div class="d-flex justify-content-between align-items-center mt-2">
                 <div class="quantity-control">
                   <button type="button" onclick="changeQty(${item.id},-1)">−</button>
-                  <strong>${item.qty} ${escapeHTML(unit)}</strong>
+                  <strong>${escapeHTML(quantityText)}</strong>
                   <button type="button" onclick="changeQty(${item.id},1)">+</button>
                 </div>
 
