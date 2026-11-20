@@ -1258,12 +1258,23 @@ Ingin mengenal lebih dekat Toko Buah Segar? Temukan informasi, aktivitas, dan be
     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Tutup"></button>
   </div>
 
-  <div class="offcanvas-body">
+<div class="offcanvas-body">
     <div id="cartItems">
       <div class="empty-cart">
         <i class="bi bi-bag"></i>
         Keranjang masih kosong.
       </div>
+    </div>
+
+    <div class="mt-3">
+      <label class="form-label fw-bold" for="customerName">Nama pemesan</label>
+      <input type="text" class="form-control" id="customerName" placeholder="Contoh: Budi Santoso">
+    </div>
+
+    <div class="mt-3">
+      <label class="form-label fw-bold" for="customerPhone">Nomor WhatsApp pengirim</label>
+      <input type="tel" class="form-control" id="customerPhone" placeholder="Contoh: 081234567890" required>
+      <small class="note-text">Wajib diisi agar pesan balasan konfirmasi terkirim ke WhatsApp kamu.</small>
     </div>
 
     <div class="mt-3">
@@ -1524,7 +1535,7 @@ Ingin mengenal lebih dekat Toko Buah Segar? Temukan informasi, aktivitas, dan be
 
   document.getElementById("searchInput").addEventListener("input", applyFilters);
 
-  // KIRIM PESANAN OTOMATIS KE GOOGLE APPS SCRIPT (FONNTE + SHEETS)
+ // KIRIM PESANAN OTOMATIS KE ADMIN & BALASAN KE PENGIRIM (TANPA BUKA WA)
   async function checkout(event) {
     if (event) event.preventDefault();
 
@@ -1533,11 +1544,26 @@ Ingin mengenal lebih dekat Toko Buah Segar? Temukan informasi, aktivitas, dan be
       return;
     }
 
+    const namaPembeli = document.getElementById("customerName")?.value.trim() || "Pelanggan";
+    const phoneInput = document.getElementById("customerPhone");
+    const rawPhone = phoneInput ? phoneInput.value.trim() : "";
+    let cleanPhone = rawPhone.replace(/\D/g, "");
+
+    if (cleanPhone.startsWith("0")) {
+      cleanPhone = "62" + cleanPhone.slice(1);
+    } else if (cleanPhone.startsWith("8")) {
+      cleanPhone = "62" + cleanPhone;
+    }
+
+    if (!/^62\d{8,15}$/.test(cleanPhone)) {
+      alert("Masukkan nomor WhatsApp pengirim yang valid (contoh: 081234567890).");
+      phoneInput?.focus();
+      return;
+    }
+
     const selectedMethod = document.querySelector('input[name="deliveryMethod"]:checked');
     const method = selectedMethod ? selectedMethod.value : "pickup";
     const notes = document.getElementById("orderNotes")?.value.trim() || "-";
-    const namaPembeli = document.getElementById("customerName")?.value.trim() || "Pelanggan";
-    const nomorPembeli = document.getElementById("customerPhone")?.value.trim() || "";
 
     let metodeLabel = "Ambil langsung di toko";
     let alamatPengantaran = "-";
@@ -1572,7 +1598,7 @@ Ingin mengenal lebih dekat Toko Buah Segar? Temukan informasi, aktivitas, dan be
     try {
       const formBody = new URLSearchParams({
         namaPembeli: namaPembeli,
-        nomorPembeli: nomorPembeli,
+        nomorPembeli: cleanPhone,
         produk: productList,
         subtotal: subtotalText,
         metode: metodeLabel,
@@ -1588,40 +1614,24 @@ Ingin mengenal lebih dekat Toko Buah Segar? Temukan informasi, aktivitas, dan be
       const result = await response.json();
 
       if (result.success) {
-        alert(result.message || "Pesanan berhasil dikirim ke WhatsApp Toko Buah Segar!");
+        alert(result.message || "Pesanan terkirim ke admin dan pesan balasan sudah dikirim ke WhatsApp Anda.");
         cart.clear();
         renderCart();
-        if (document.getElementById("orderNotes")) {
-          document.getElementById("orderNotes").value = "";
-        }
-        if (document.getElementById("deliveryAddress")) {
-          document.getElementById("deliveryAddress").value = "";
-        }
+        if (document.getElementById("orderNotes")) document.getElementById("orderNotes").value = "";
+        if (document.getElementById("deliveryAddress")) document.getElementById("deliveryAddress").value = "";
+        if (phoneInput) phoneInput.value = "";
+        if (document.getElementById("customerName")) document.getElementById("customerName").value = "";
+
         const cartEl = document.getElementById("cartPanel");
         if (cartEl && window.bootstrap) {
           bootstrap.Offcanvas.getInstance(cartEl)?.hide();
         }
       } else {
-        throw new Error(result.message || "Gagal mengirim pesanan.");
+        throw new Error(result.message || "Gagal mengirim pesan otomatis.");
       }
     } catch (error) {
-      console.error("Gagal kirim pesanan via Apps Script:", error);
-
-      // Cadangan otomatis membuka wa.me jika fetch ke Apps Script gagal
-      const fallbackMessage =
-        `Halo Toko Buah Segar, saya ingin memesan:\n\n` +
-        `${productList}\n\n` +
-        `Subtotal: ${subtotalText}\n` +
-        `Metode pengambilan: ${metodeLabel}\n` +
-        (method === "courier" ? `Alamat: ${alamatPengantaran}\n` : "") +
-        `Catatan: ${notes}`;
-
-      const cleanPhone = NOMOR_WHATSAPP.replace(/\D/g, "");
-      if (cleanPhone) {
-        window.open(`https://wa.me/${cleanPhone}?text=${encodeURIComponent(fallbackMessage)}`, "_blank");
-      } else {
-        alert("Gagal mengirim pesanan: " + error.message);
-      }
+      console.error("Gagal kirim via Apps Script:", error);
+      alert("Gagal mengirim pesan otomatis: " + error.message);
     } finally {
       if (submitBtn) {
         submitBtn.disabled = false;
