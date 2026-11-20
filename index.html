@@ -667,8 +667,7 @@
     }
 
 
-    /* Footer bergaya informasi kontak */
-    /* FOOTER */
+/* Footer bergaya informasi kontak */
 .site-footer {
   padding: 48px 0 20px;
   background: #1c3925;
@@ -728,6 +727,7 @@
   padding: 0;
   margin: 0;
   border: none;
+  max-width: none;
 }
 
 .site-footer .footer-social h3 {
@@ -741,23 +741,48 @@
   color: white;
   line-height: 1.6;
   margin-bottom: 18px;
+  font-size: 0.95rem;
+  text-align: left;
+}
+
+.footer-social-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .site-footer .social-link {
   display: inline-flex !important;
   align-items: center;
-  gap: 10px;
-  padding: 12px 20px;
+  gap: 8px;
+  padding: 10px 16px;
   border: 1px solid white;
   border-radius: 8px;
   color: white;
   text-decoration: none;
   font-weight: 700;
+  font-size: 0.9rem;
+  transition: 0.2s ease;
 }
 
 .site-footer .social-link:hover {
   background: white;
   color: #1c3925;
+}
+
+.back-to-top-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 14px;
+  color: #f6e8a9;
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.back-to-top-link:hover {
+  color: #ffffff;
+  text-decoration: underline;
 }
 
 .site-footer .footer-copyright {
@@ -1287,7 +1312,7 @@
 
     
 <div class="footer-social">
-  <h3>MEDIA SOSIAL & GOOGLE MAPS</h3>
+  <h3>MEDIA SOSIAL &amp; GOOGLE MAPS</h3>
   <p>
     Ingin mengenal lebih dekat Toko Buah Segar?
     Temukan informasi, aktivitas, dan berbagai pilihan
@@ -1296,7 +1321,6 @@
   </p>
 
   <div class="footer-social-links">
-
     <a class="social-link"
        href="https://www.instagram.com/USERNAME_INSTAGRAM/"
        target="_blank"
@@ -1341,11 +1365,15 @@
       <i class="bi bi-link-45deg"></i>
       <span>Linktree</span>
     </a>
+  </div>
 
+  <div>
+    <a class="back-to-top-link" href="#beranda">
+      <i class="bi bi-arrow-up-circle"></i>
+      <span>Kembali ke Halaman Awal</span>
+    </a>
   </div>
 </div>
-
-    </div>
 
     <div class="footer-copyright">
       <small>© 2026 R5. Seluruh hak cipta dilindungi.</small>
