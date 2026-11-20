@@ -1318,6 +1318,10 @@ Ingin mengenal lebih dekat Toko Buah Segar? Temukan informasi, aktivitas, dan be
 
 <script>
   // UBAH NOMOR WHATSAPP INI DENGAN NOMOR TOKO
+  const NOMOR_WHATSAPP = "6281234567890";// GANTI DENGAN URL WEB APP GOOGLE APPS SCRIPT YANG BARU
+  const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/PASTE_URL_WEB_APP_KAMU/exec";
+
+  // NOMOR WHATSAPP CADANGAN (jika Google Apps Script sedang gagal/gangguan)
   const NOMOR_WHATSAPP = "6281234567890";
 
   const cart = new Map();
@@ -1523,59 +1527,117 @@ Ingin mengenal lebih dekat Toko Buah Segar? Temukan informasi, aktivitas, dan be
 
   document.getElementById("searchInput").addEventListener("input", applyFilters);
 
-  // KIRIM PESANAN KE WHATSAPP
-  function checkout() {
+  // KIRIM PESANAN KE GOOGLE APPS SCRIPT (FONNTE + SHEETS)
+  async function checkout(event) {
+    if (event) event.preventDefault();
+
     if (cart.size === 0) {
       alert("Keranjang masih kosong. Silakan pilih produk terlebih dahulu.");
       return;
     }
 
-    if (NOMOR_WHATSAPP === "6281234567890") {
-      alert("Silakan ganti nomor WhatsApp toko pada bagian pengaturan JavaScript.");
+    if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes("PASTE_URL_WEB_APP_KAMU")) {
+      alert("Silakan isi GOOGLE_SCRIPT_URL terlebih dahulu pada bagian pengaturan JavaScript.");
       return;
     }
 
-    const method = document.querySelector('input[name="deliveryMethod"]:checked').value;
-    const notes = document.getElementById("orderNotes").value.trim();
-    let deliveryDetails = "Ambil langsung di toko";
+    const selectedMethod = document.querySelector('input[name="deliveryMethod"]:checked');
+    const method = selectedMethod ? selectedMethod.value : "pickup";
+    const notes = document.getElementById("orderNotes")?.value.trim() || "-";
+    const namaPembeli = document.getElementById("customerName")?.value.trim() || "Pelanggan";
+    const nomorPembeli = document.getElementById("customerPhone")?.value.trim() || "";
+
+    let metodeLabel = "Ambil langsung di toko";
+    let alamatPengantaran = "-";
 
     if (method === "courier") {
-      const address = document.getElementById("deliveryAddress").value.trim();
+      const addressInput = document.getElementById("deliveryAddress");
+      const address = addressInput ? addressInput.value.trim() : "";
       if (!address) {
         alert("Masukkan alamat pengantaran terlebih dahulu.");
+        addressInput?.focus();
         return;
       }
-      deliveryDetails = "Kurir / Gojek\nAlamat: " + address +
-        "\nBiaya pengantaran: Konfirmasi langsung dengan toko/kurir";
+      metodeLabel = "Kurir / Gojek";
+      alamatPengantaran = address;
     }
 
     const subtotal = getSubtotal();
-    const productList = [...cart.values()].map((item, index) =>
-      `${index + 1}. ${item.name} x${item.qty} = ${formatRupiah(item.price * item.qty)}`
-    ).join("\n");
+    const subtotalText = formatRupiah(subtotal);
+    const productList = [...cart.values()]
+      .map((item, index) =>
+        `${index + 1}. ${item.name} x${item.qty} = ${formatRupiah(item.price * item.qty)}`
+      )
+      .join("\n");
 
-    const message = `
-Halo Toko Buah Segar, saya ingin memesan:
+    const submitBtn =
+      document.getElementById("checkoutBtn") ||
+      [...document.querySelectorAll("button")].find(btn =>
+        btn.textContent.toLowerCase().includes("kirim pesanan")
+      );
 
-${productList}
+    const originalBtnHTML = submitBtn ? submitBtn.innerHTML : "";
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = "Mengirim pesanan...";
+    }
 
-Subtotal: ${formatRupiah(subtotal)}
+    try {
+      const formBody = new URLSearchParams({
+        namaPembeli: namaPembeli,
+        nomorPembeli: nomorPembeli,
+        produk: productList,
+        subtotal: subtotalText,
+        metode: metodeLabel,
+        alamat: alamatPengantaran,
+        catatan: notes
+      });
 
-Metode pengambilan:
-${deliveryDetails}
+      const response = await fetch(GOOGLE_SCRIPT_URL, {
+        method: "POST",
+        body: formBody
+      });
 
-Total produk: ${formatRupiah(subtotal)}
-Biaya pengantaran (jika menggunakan kurir) dikonfirmasi terpisah.
+      const result = await response.json();
 
-Catatan:
-${notes || "-"}
+      if (result.success) {
+        alert(result.message || "Pesanan berhasil dikirim ke WhatsApp toko!");
+        cart.clear();
+        renderCart();
+        if (document.getElementById("orderNotes")) {
+          document.getElementById("orderNotes").value = "";
+        }
+        const cartEl = document.getElementById("cartPanel");
+        if (cartEl && window.bootstrap) {
+          bootstrap.Offcanvas.getInstance(cartEl)?.hide();
+        }
+      } else {
+        throw new Error(result.message || "Gagal mengirim pesanan.");
+      }
+    } catch (error) {
+      console.error("Gagal kirim pesanan:", error);
 
-Mohon konfirmasi ketersediaan produk dan total pembayaran. Terima kasih.
-    `;
+      // Cadangan otomatis membuka wa.me jika fetch ke Apps Script gagal
+      const fallbackMessage =
+        `Halo Toko Buah Segar, saya ingin memesan:\n\n` +
+        `${productList}\n\n` +
+        `Subtotal: ${subtotalText}\n` +
+        `Metode pengambilan: ${metodeLabel}\n` +
+        (method === "courier" ? `Alamat: ${alamatPengantaran}\n` : "") +
+        `Catatan: ${notes}`;
 
-    const url = "https://wa.me/" + NOMOR_WHATSAPP.replace(/\D/g, "") +
-      "?text=" + encodeURIComponent(message);
-    window.open(url, "_blank");
+      const cleanPhone = NOMOR_WHATSAPP.replace(/\D/g, "");
+      if (cleanPhone && cleanPhone !== "6281234567890") {
+        window.open(`https://wa.me/${cleanPhone}?text=${encodeURIComponent(fallbackMessage)}`, "_blank");
+      } else {
+        alert("Gagal mengirim pesanan: " + error.message);
+      }
+    } finally {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalBtnHTML;
+      }
+    }
   }
 
   // Ubah tombol menjadi hijau tua setelah diklik.
@@ -1587,7 +1649,18 @@ Mohon konfirmasi ketersediaan produk dan total pembayaran. Terima kasih.
       clickedButton.classList.add("is-pressed");
     }
   });
+document.addEventListener("DOMContentLoaded", () => {
+    const checkoutBtn =
+      document.getElementById("checkoutBtn") ||
+      [...document.querySelectorAll("button")].find(btn =>
+        btn.textContent.toLowerCase().includes("kirim pesanan")
+      );
 
+    if (checkoutBtn && !checkoutBtn.hasAttribute("onclick")) {
+      checkoutBtn.setAttribute("type", "button");
+      checkoutBtn.addEventListener("click", checkout);
+    }
+  });
   // INISIALISASI WEBSITE
   setupProducts();
   renderCart();
